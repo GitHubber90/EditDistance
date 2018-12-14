@@ -1,0 +1,35 @@
+def edit_distance(string_one, string_two):
+    rows= len(string_one)+1#we add one more because we are adding the empty string to it
+    columns = len(string_two)+1
+
+    dist = [[0 for x in range(columns)]
+            for x in range(rows)]
+    #Fills the array with zeros first as placeholders
+
+    for i in range(1,rows):#Fills the rows staring with 1, 2 ,3, 4 and so on
+        dist[i][0]=i
+
+    for i in range(1,columns):#Same as the row one as we know this will always be the case with edit distance
+        dist[0][i]=i
+
+    for col in range(1, columns):
+        for row in range(1, rows):#These for loops will iterate through the whole matrix we are skipping the index 0 because we have already filled it
+            if string_one[row - 1] == string_two[col - 1]:
+                temp = 0#if the letter is the same in string one and string two we will do nothing thats why the cost is 0
+            else:
+                temp = 1#else we will do one thing
+            dist[row][col] = min(dist[row - 1][col] + 1,#We will then check the left of the index and the top and the left diagonal to find our which one has the minimum cost and added to the matrix
+                                 dist[row][col - 1] + 1,
+                                 dist[row - 1][col - 1] + temp)
+
+    for num in range(rows):
+        print(dist[num])
+
+
+
+#array = edit_distance('hello','halo')
+#array= edit_distance('flaw','lawn')
+string_one=input('Enter first word\n')
+string_two=input('Enter second word\n')
+array= edit_distance(string_one,string_two)
+print(array)
